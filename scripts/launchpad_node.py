@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 import rospy
-from launchpad_ctrl.msg import LaunchpadKey
+from launchpad_ctrl.msg import *
 
 import pygame.event
 import pygame.midi
@@ -10,12 +10,18 @@ import sys
 import select
 from launchpad import *
 
+def colorOne(m):
+	key = xyToKey(m.x, m.y)
+	lp.lightOne(key, m.r, m.g, m.b)
+
 def main():
 	pygame.init()
 	rospy.init_node('launchpad', anonymous=True)
 	pub = rospy.Publisher("launchpad_key_event", LaunchpadKey, queue_size = 10)
+    	rospy.Subscriber("launchpad_color_change_one", LaunchpadColorOne, colorOne)
 
 
+	global lp
 	lp = Launchpad()
 	midi_input = lp.midi_input
 	midi_output = lp.midi_output
@@ -37,7 +43,10 @@ def main():
 		msg,timestamp = midi_input.read(1)[0]
 		midi_output.note_on(msg[1],(msg[1]/10-1)*8+(msg[1]%10-1)+64)
 		r = int(random.random() * 64)
-		midi_output.write_short(0x90,msg[1],r)
+		#midi_output.write_short(0x90,msg[1],r)
+		#lp.lightOne(msg[1],0,50,0)
+		e = parseKeyEvent(msg[1], msg[2])
+		colorOne(LaunchpadColorOne(e.x,e.y,0,50,0))
 		print("%s"%msg)
 		pub.publish(parseKeyEvent(msg[1], msg[2]))
 

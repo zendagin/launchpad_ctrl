@@ -55,6 +55,9 @@ class Launchpad:
 		msg = msg + [color,loop]+[ord(c) for c in text]+[0xf7]
 		self.midi_output.write_sys_ex(0, msg)
 
+	def lightOne(self, led_num, r, g, b):#maximun color value is 63 0x3f
+		self.midi_output.write_sys_ex(0,[0xf0,0x00,0x20,0x29,0x02,0x18,0x0b,led_num,r,g,b,0xf7])
+
 def parseKeyEvent(keyNum, keydown):
 	event = LaunchpadKey()
 	event.type = 'square'
@@ -95,4 +98,4 @@ def xyToKey(x,y):
 	if(y==8):
 		return x + 104
 	else:
-		return (x*10) + (y+1)
+		return ((x + 1)*10) + (y+1)
