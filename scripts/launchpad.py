@@ -1,5 +1,6 @@
 import pygame.midi
 import rospy
+from launchpad_ctrl.msg import LaunchpadKey
 
 def findDevices():
 	pygame.midi.init()
