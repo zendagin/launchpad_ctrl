@@ -6,11 +6,11 @@ from basic_mode import *
 
 
 def callback(data):
-	global current_mode, current_mode_number
-	if(data.y == 8 and data.x >= 4):
-		mode_number = data.x - 4
+	global modes, current_mode, current_mode_number
+	if(data.x == 8 and data.y >= 4):
+		mode_number = data.y - 4
 		if(mode_number != current_mode_number):
-			current_mode = mode[mode_number]
+			current_mode = modes[mode_number]
 			current_mode.start()
 	else:
 		current_mode.execute(data)
@@ -18,7 +18,7 @@ def callback(data):
 def listener():
 
 	global modes, current_mode, current_mode_number
-	modes = [BasicMode(0)]
+	modes = [BasicMode(0), BasicMode(1), BasicMode(2), BasicMode(3)]
 	current_mode = modes[0]
 	current_mode_number = 0
 

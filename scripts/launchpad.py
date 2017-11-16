@@ -66,8 +66,8 @@ def parseKeyEvent(keyNum, keydown):
 	else:
 		event.keydown = True
 	if(keyNum >= 104):
-		event.y = 8
-		event.x = keyNum - 104
+		event.y = keyNum - 104
+		event.x = 8
 		event.type = {
 			104: 'UP',
 			105: 'DOWN',
@@ -79,8 +79,8 @@ def parseKeyEvent(keyNum, keydown):
 			111: 'MIXER'
 		}[keyNum]
 	else:
-		event.x = keyNum%10 - 1
-		event.y = keyNum/10 - 1
+		event.x = keyNum/10 - 1
+		event.y = keyNum%10 - 1
 	if(event.y == 8):
 		event.type = {
 			0: 'RECORD_ARM',
@@ -95,7 +95,7 @@ def parseKeyEvent(keyNum, keydown):
 	return event
 
 def xyToKey(x,y):
-	if(y==8):
-		return x + 104
+	if(x==8):
+		return y + 104
 	else:
-		return ((y + 1)*10) + (x+1)
+		return ((x + 1)*10) + (y+1)
