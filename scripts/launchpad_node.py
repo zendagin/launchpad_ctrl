@@ -16,8 +16,6 @@ def colorOne(m):
 	lp.lightOne(key, m.r, m.g, m.b)
 
 def color(m):
-	print(m.x)
-	print(m.y)
 	for index, data in enumerate(m.x):
 		c = LaunchpadColorOne(m.x[index], m.y[index], m.r[index], m.g[index], m.b[index])
 		colorOne(c)
@@ -39,6 +37,7 @@ def main():
 	midi_input = lp.midi_input
 	midi_output = lp.midi_output
 
+	lp.presetMode(0);
 	while not rospy.is_shutdown():
 		#break when keyboard 'enter' pressed
 		i,o,e = select.select([sys.stdin],[],[],0)

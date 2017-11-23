@@ -5,17 +5,17 @@ from launchpad_ctrl.msg import LaunchpadKey
 def findDevices():
 	pygame.midi.init()
 	n_devices = pygame.midi.get_count()
-	target_name = "Launchpad MK2 MIDI 1"
+	keyword = "MK2"
 	ret = {'input':-1,'output':-1}
 	
 	for d in range(n_devices):
 		di = pygame.midi.get_device_info(d)
 		print("Device %d: %s"%(d,str(di)))
-		if di[1] == target_name and di[2] == 1:
+		if di[1].find(keyword) != -1 and di[2] == 1:
 			# Input side
 			print("Found target input device")
 			ret['input'] = d
-		elif di[1] == target_name and di[3] == 1:
+		elif di[1].find(keyword) != -1 and di[3] == 1:
 			# Output side
 			print("Found target output device")
 			ret['output'] = d
@@ -57,6 +57,9 @@ class Launchpad:
 
 	def lightOne(self, led_num, r, g, b):#maximun color value is 63 0x3f
 		self.midi_output.write_sys_ex(0,[0xf0,0x00,0x20,0x29,0x02,0x18,0x0b,led_num,r,g,b,0xf7])
+
+	def presetMode(self, num):
+		self.midi_output.write_sys_ex(0,[0xf0,0x00,0x20,0x29,0x02,0x18,0x22,num,0xf7])
 
 def parseKeyEvent(keyNum, keydown):
 	event = LaunchpadKey()
