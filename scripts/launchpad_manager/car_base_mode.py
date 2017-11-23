@@ -18,14 +18,14 @@ class CarBaseMode(BasicMode):
 		for x in range(1,8):
 			for y in range(0,7):
 				self.colors.setColor(0, x, y, 0.1, 0.4, 0.1)
-		self.setRow(4, 0.4, 1, 0.4, False)
-		self.setColumn(3, 0.4, 1, 0.4, False)
+		self.setRow(4, 0.4, 1, 0.4, 1, False)
+		self.setColumn(3, 0.4, 1, 0.4, 1, False)
 
-		self.setColumn(7, 0.6, 0.6, 0.8, False)
-		self.setRow(0, 0.6, 0.6, 0.8, False)
-		self.setRow(8, 0, 1, 0, True)
-		self.setColumn(7, 0.6, 0.6, 0.8, False)
-		self.setColumn(8, 0, 1, 0, False)
+		self.setColumn(7, 0.6, 0.6, 0.8, 1, False)
+		self.setRow(0, 0.6, 0.6, 0.8, 1, False)
+		self.setRow(8, 0, 1, 0, 1, True)
+		self.setColumn(7, 0.6, 0.6, 0.8, 1, False)
+		self.setColumn(8, 0, 1, 0, 1, False)
 		self.colors.setColor(0, 8, modeNum + 4, 0, 1, 0.6)
 
 		self.linear_velocity_const=0.2;
@@ -57,7 +57,6 @@ class CarBaseMode(BasicMode):
 		self.twistTarget.publish(self.msg)
 
 	def sendMsg(self):
-
 		if(self.totalKeyDown != 0):
 			self.msg.x = self.x_total_velocity * self.linear_velocity_const / self.totalKeyDown
 			self.msg.y = self.y_total_velocity * self.linear_velocity_const / self.totalKeyDown

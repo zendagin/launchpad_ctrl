@@ -55,7 +55,8 @@ class Layers:
 
 	def addLayer(self):
 		self.layerNumber += 1
-		self.layers.append(Layer(self.x,self.y))
+		self.layers.append(Layer(self.maxX,self.maxY))
+		return self.layerNumber - 1
 
 	def removeLayer(self):
 		if(self.layerNumber > 0):
@@ -63,6 +64,7 @@ class Layers:
 			del self.layers[-1]
 		else:
 			print("Error: trying to remove layer from empty stack")
+		return self.layerNumber
 
 	def setColor(self, l, x, y, r, g, b, a = 1):
 		if(self.layerNumber > l):

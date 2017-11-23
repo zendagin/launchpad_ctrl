@@ -18,22 +18,27 @@ class BasicMode(object):
 		if (x<0 or y<0 or x>9 or y>9 or (x == 8 and y > 3)):
 			return -1
 		self.colors.setColor(0, x, y, r, g, b)
+		(r, g, b) = self.colors.getColor(x, y)
 		self.changeColorOne.publish(LaunchpadColorOne(x,y,r,g,b))
 		return 0
 
-	def setColumn(self, y, r, g, b, includeFunction):
+	def setColumn(self, y, r, g, b, a, includeFunction, layer = 0):
 		maxX = 9;
 		if(includeFunction == False):
 			maxX = 8;
 		for x in range(0,maxX):
-			self.colors.setColor(0, x, y, r, g, b)
+			self.colors.setColor(layer, x, y, r, g, b, a)
 
-	def setRow(self, x, r, g, b, includeFunction):
+	def setRow(self, x, r, g, b, a, includeFunction, layer = 0):
 		maxY = 9;
 		if(includeFunction == False):
 			maxY = 8;
 		for y in range(0,maxY):
-			self.colors.setColor(0, x, y, r, g, b)	
+			self.colors.setColor(layer, x, y, r, g, b, a)	
+
+	def addL(self):
+		self.colors.addLayer()
+		self.setRow(4, 0, 0, 1, 0.5, False, 1)
 
 	def printAll(self):
 		xs = []
@@ -65,6 +70,8 @@ class BasicMode(object):
 				self.colors.setColor(0, x, y, 0, 1, 0)		
 		self.colors.setColor(0, 8, modeNum + 4, 0,1,0.6)
 
+		self.addL()
+
 	def start(self):
 		self.printAll()
 
@@ -72,10 +79,8 @@ class BasicMode(object):
 		pass
 		
 	def execute(self, e):
-		r = int(random.random() * 63)
-		r2 = int(random.random() * r)
-		r3 = int(random.random() * r)
+		r = random.random()
 		print(e.x, e.y)
-		self.setAndChangeSingleColor(e.x,e.y,r,r,r)
-		self.setAndChangeSingleColor(e.x+1,e.y,r2,r,r3)
-		self.setAndChangeSingleColor(e.x-1,e.y,r2,r,r3)
+		self.setAndChangeSingleColor(e.x,e.y,r,1,r)
+		self.setAndChangeSingleColor(e.x+1,e.y,r,1,r)
+		self.setAndChangeSingleColor(e.x-1,e.y,r,1,r)
