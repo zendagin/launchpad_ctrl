@@ -19,22 +19,22 @@ class CarBaseMode(BasicMode):
     for x in range(1, 8):
       for y in range(0, 7):
         self.colors.setColor(0, x, y, 0.1, 0.4, 0.1)
-    self.setRow(4, 0.4, 1, 0.4, 1, False)
-    self.setColumn(3, 0.4, 1, 0.4, 1, False)
+    self.setRowRGB(4, 0.4, 1, 0.4, 1, False)
+    self.setColumnRGB(3, 0.4, 1, 0.4, 1, False)
 
-    self.setColumn(7, 0.6, 0.6, 0.8, 1, False)
-    self.setRow(0, 0.6, 0.6, 0.8, 1, False)
-    self.setRow(8, 0, 1, 0, 1, True)
-    self.setColumn(7, 0.6, 0.6, 0.8, 1, False)
-    self.setColumn(8, 0, 1, 0, 1, False)
+    self.setColumnRGB(7, 0.6, 0.6, 0.8, 1, False)
+    self.setRowRGB(0, 0.6, 0.6, 0.8, 1, False)
+    self.setRowRGB(8, 0, 1, 0, 1, True)
+    self.setColumnRGB(7, 0.6, 0.6, 0.8, 1, False)
+    self.setColumnRGB(8, 0, 1, 0, 1, False)
     self.colors.setColor(0, 8, modeNum + 4, 0, 1, 0.6)
 
-    self.linear_velocity_const = 0.2;
-    self.angular_velocity_const = 0.2;
+    self.linear_velocity_const = 0.2
+    self.angular_velocity_const = 0.2
     self.mode = UInt8(0)
     self.msg = Pose2D(0, 0, 0)
-    self.x_total_velocity = 0.0;
-    self.y_total_velocity = 0.0;
+    self.x_total_velocity = 0.0
+    self.y_total_velocity = 0.0
     self.totalKeyDown = 0
     self.theta = 0
 

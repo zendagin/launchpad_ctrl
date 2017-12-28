@@ -53,6 +53,11 @@ add_message_files(
   LaunchpadKey.msg
   LaunchpadColorOne.msg
   LaunchpadColor.msg
+  LaunchpadColumn.msg
+  LaunchpadRow.msg
+  LaunchpadFlash.msg
+  LaunchpadColorOneRGB.msg
+  LaunchpadColorRGB.msg
 )
 
 ## Generate services in the 'srv' folder

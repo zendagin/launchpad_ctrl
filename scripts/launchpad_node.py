@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 import rospy
-from std_msgs.msg import Empty
+from std_msgs.msg import Empty, UInt8
 from launchpad_ctrl.msg import *
 
 import pygame.event
@@ -14,14 +14,34 @@ from launchpad import *
 
 def colorOne(m):
   key = xyToKey(m.x, m.y)
-  lp.lightOne(key, m.r, m.g, m.b)
-
+  lp.lightOne(key, m.c)
 
 def color(m):
   for index, data in enumerate(m.x):
     c = LaunchpadColorOne(m.x[index], m.y[index], m.r[index], m.g[index], m.b[index])
     colorOne(c)
 
+def colorRow(m):
+  lp.lightOne(m.row, m.c)
+
+def colorColumn(m):
+  lp.lightColumn(m.column, m.c)
+
+def colorAll(m):
+  lp.lightAll(m.data)#TODO
+
+def flash(m):
+  key = xyToKey(m.x, m.y)
+  lp.flash(key, m.c)
+
+def colorOneRGB(m):
+  key = xyToKey(m.x, m.y)
+  lp.lightOneRGB(key, m.r, m.g, m.b)
+
+def colorRGB(m):
+  for index, data in enumerate(m.x):
+    c = LaunchpadColorOneRGB(m.x[index], m.y[index], m.r[index], m.g[index], m.b[index])
+    colorOneRGB(c)
 
 def clear(m):
   lp.ledOff()
@@ -33,6 +53,14 @@ def main():
   pub = rospy.Publisher("launchpad_key_event", LaunchpadKey, queue_size=10)
   rospy.Subscriber("launchpad_color_change_one", LaunchpadColorOne, colorOne)
   rospy.Subscriber("launchpad_color_change", LaunchpadColor, color)
+
+  rospy.Subscriber("launchpad_color_row", LaunchpadRow, colorRow)
+  rospy.Subscriber("launchpad_color_column", LaunchpadColumn, colorColumn())
+  rospy.Subscriber("launchpad_color_all", UInt8, colorAll())
+  rospy.Subscriber("launchpad_color_flash", LaunchpadFlash, flash)
+
+  rospy.Subscriber("launchpad_color_change_one_rgb", LaunchpadColorOneRGB, colorOneRGB)
+  rospy.Subscriber("launchpad_color_change_rgb", LaunchpadColorRGB, colorRGB)
   rospy.Subscriber("launchpad_clear", Empty, clear)
 
   global lp

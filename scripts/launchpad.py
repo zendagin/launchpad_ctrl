@@ -57,8 +57,23 @@ class Launchpad:
     msg = msg + [color, loop] + [ord(c) for c in text] + [0xf7]
     self.midi_output.write_sys_ex(0, msg)
 
-  def lightOne(self, led_num, r, g, b):  # maximun color value is 63 0x3f
+  def lightOne(self, led_num, c):
+    self.midi_output.write_sys_ex(0, [0xf0, 0x00, 0x20, 0x29, 0x02, 0x18, 0x0a, led_num, c, 0xf7])
+
+  def lightColumn(self, col_num, c):
+    self.midi_output.write_sys_ex(0, [0xf0, 0x00, 0x20, 0x29, 0x02, 0x18, 0x0c, col_num, c, 0xf7])
+
+  def lightRow(self, row_num, c):
+    self.midi_output.write_sys_ex(0, [0xf0, 0x00, 0x20, 0x29, 0x02, 0x18, 0x0d, row_num, c, 0xf7])
+
+  def lightAll(self, row_num, c):
+    self.midi_output.write_sys_ex(0, [0xf0, 0x00, 0x20, 0x29, 0x02, 0x18, 0x0e, c, 0xf7])
+
+  def lightOneRGB(self, led_num, r, g, b):  # maximum color value is 63 0x3f
     self.midi_output.write_sys_ex(0, [0xf0, 0x00, 0x20, 0x29, 0x02, 0x18, 0x0b, led_num, r, g, b, 0xf7])
+
+  def flash(self, led_num, c):
+    self.midi_output.write_sys_ex(0, [0xf0, 0x00, 0x20, 0x29, 0x02, 0x18, 0x23, 0x00, led_num, c, 0xf7])
 
   def presetMode(self, num):
     self.midi_output.write_sys_ex(0, [0xf0, 0x00, 0x20, 0x29, 0x02, 0x18, 0x22, num, 0xf7])
