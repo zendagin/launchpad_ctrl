@@ -5,6 +5,13 @@ from mode.basic_mode import *
 from mode.car_base_mode import *
 
 
+def my_import(name):
+  components = name.split('.')
+  mod = __import__(components[0])
+  for comp in components[1:]:
+    mod = getattr(mod, comp)
+  return mod
+
 def callback(data):
   global modes, current_mode, current_mode_number
   if (data.x == 8 and data.y >= 4):
@@ -21,6 +28,14 @@ def callback(data):
 def listener():
   global modes, current_mode, current_mode_number
   modes = [CarBaseMode(0), BasicMode(1), BasicMode(2), BasicMode(3)]
+  i = -1
+  for m in sys.argv:
+    if(i>=0):
+      klass = my_import(m)
+      modes[i] = klass(i)
+    i+=1
+
+
   current_mode = modes[0]
   current_mode_number = 0
 

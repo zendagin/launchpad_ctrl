@@ -74,7 +74,8 @@ class BasicMode(object):
     self.addL()
 
   def start(self):
-    self.printAll()
+    #self.printAll()
+    pass
 
   def pause(self):
     pass
