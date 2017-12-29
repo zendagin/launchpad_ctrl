@@ -3,6 +3,7 @@ import rospy
 from launchpad_ctrl.msg import LaunchpadKey
 from mode.basic_mode import *
 from mode.car_base_mode import *
+from mode.pid_mode import *
 
 
 def my_import(name):
@@ -27,7 +28,7 @@ def callback(data):
 
 def listener():
   global modes, current_mode, current_mode_number
-  modes = [CarBaseMode(0), BasicMode(1), BasicMode(2), BasicMode(3)]
+  modes = [CarBaseMode(0), BasicMode(1), PIDMode(2), BasicMode(3)]
   i = -1
   for m in sys.argv:
     if(i>=0):

@@ -18,7 +18,7 @@ class CarBaseMode(BasicMode):
     self.twistTarget = rospy.Publisher("command/twistTarget", Pose2D, queue_size=10)
     for x in range(1, 8):
       for y in range(0, 7):
-        self.colors.setColor(0, x, y, 0.1, 0.4, 0.1)
+        self.colors.setColorRGB(0, x, y, 0.1, 0.4, 0.1)
     self.setRowRGB(4, 0.4, 1, 0.4, 1, False)
     self.setColumnRGB(3, 0.4, 1, 0.4, 1, False)
 
@@ -27,7 +27,7 @@ class CarBaseMode(BasicMode):
     self.setRowRGB(8, 0, 1, 0, 1, True)
     self.setColumnRGB(7, 0.6, 0.6, 0.8, 1, False)
     self.setColumnRGB(8, 0, 1, 0, 1, False)
-    self.colors.setColor(0, 8, modeNum + 4, 0, 1, 0.6)
+    self.colors.setColorRGB(0, 8, modeNum + 4, 0, 1, 0.6)
 
     self.linear_velocity_const = 0.2
     self.angular_velocity_const = 0.2

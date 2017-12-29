@@ -19,7 +19,7 @@ class BasicMode(object):
     if (x < 0 or y < 0 or x > 9 or y > 9 or (x == 8 and y > 3)):
       return -1
     self.colors.setColorRGB(0, x, y, r, g, b)
-    (r, g, b) = self.colors.getColor(x, y)
+    (r, g, b) = self.colors.getColorRGB(x, y)
     self.changeColorOneRGB.publish(LaunchpadColorOneRGB(x, y, r, g, b))
     return 0
 
@@ -42,23 +42,20 @@ class BasicMode(object):
     self.setRowRGB(4, 0, 0, 1, 0.5, False, 1)
 
   def printAll(self):
-    xs = []
-    ys = []
-    rs = []
-    gs = []
-    bs = []
-    colors = self.colors.getAllColor()
-    for x in range(0, 9):
-      for y in range(0, 9):
-        (r, g, b) = colors[x][y]
-        xs.append(x)
-        ys.append(y)
-        rs.append(r)
-        gs.append(g)
-        bs.append(b)
-        sys.stdout.write(" {} {} {} ".format(r, g, b))
-      print('\n')
-    self.changeColorRGB.publish(LaunchpadColorRGB(xs, ys, rs, gs, bs))
+    if self.colors.rgb:
+      (xs, ys, rs, gs, bs) = self.colors.printAll()
+      self.changeColorRGB.publish(LaunchpadColorRGB(xs, ys, rs, gs, bs))
+    else:
+      (xs, ys, cs) = self.colors.printAll()
+      self.changeColor.publish(LaunchpadColor(xs, ys, cs))
+
+  def updateColor(self):
+    if self.colors.rgb:
+      (xs, ys, rs, gs, bs) = self.colors.printChanged()
+      self.changeColorRGB.publish(LaunchpadColorRGB(xs, ys, rs, gs, bs))
+    else:
+      (xs, ys, cs) = self.colors.printChanged()
+      self.changeColor.publish(LaunchpadColor(xs, ys, cs))
 
   def __init__(self, modeNum):
     self.modeNum = modeNum
@@ -71,6 +68,7 @@ class BasicMode(object):
     self.flash = rospy.Publisher("launchpad_color_flash", LaunchpadFlash, queue_size=10)
     self.changeColorRGB = rospy.Publisher("launchpad_color_change_rgb", LaunchpadColorRGB, queue_size=10)
     self.changeColorOneRGB = rospy.Publisher("launchpad_color_change_one_rgb", LaunchpadColorOneRGB, queue_size=10)
+
     self.colors = Layers(1, 9, 9, 63)
     for x in range(0, 9):
       for y in range(0, 9):

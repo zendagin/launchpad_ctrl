@@ -7,7 +7,7 @@ def calWithAlpha(old, new, a):
   return result
 
 
-class Layer:
+class Layer(object):
   def __init__(self, maxX, maxY, rgb):
     self.colors = [[0 for x in range(0, maxX)] for y in range(0, maxY)]
     for x in range(0, maxX):
@@ -27,11 +27,36 @@ class Layer:
     return self.colors[x][y]
 
 
-class Layers:
+class Layers(object):
   def toActualValue(self, value):
     return int(round(value * self.maxValue))
 
+  def printChanged(self):
+    changed = self.getChangedColor()
+    xs = []
+    ys = []
+    rs = []
+    gs = []
+    bs = []
+    cs = []
+    for i in range(0, len(changed)):
+      if self.rgb:
+        (x,y,(r, g, b)) = changed[i]
+        rs.append(r)
+        gs.append(g)
+        bs.append(b)
+      else:
+        (x,y,c) = changed[i]
+        cs.append(c)
+      xs.append(x)
+      ys.append(y)
+    if self.rgb:
+      return (xs, ys, rs, gs, bs)
+    else:
+      return (xs, ys, cs)
+
   def printAll(self):
+    c = self.getAllColor()
     xs = []
     ys = []
     rs = []
@@ -43,12 +68,12 @@ class Layers:
         xs.append(x)
         ys.append(y)
         if self.rgb:
-          (r, g, b) = self.colors[x][y]
+          (r, g, b) = c[x][y]
           rs.append(r)
           gs.append(g)
           bs.append(b)
         else:
-          cs.append(self.colors[x][y])
+          cs.append(c[x][y])
     if self.rgb:
       return (xs, ys, rs, gs, bs)
     else:
@@ -117,15 +142,23 @@ class Layers:
     return (self.toActualValue(r), self.toActualValue(g), self.toActualValue(b))
 
   def getChangedColor(self):
+    return self.updateCache()
+
+  def getAllColor(self):
+    self.updateCache()
+    return self.cache
+
+  def updateCache(self):
     r = []
     for x, y in self.changed:
-      self.cache[x][y] = self.getColor(x, y)
-      r.append(self.cache[x][y])
+      if self.rgb:
+        c = self.getColorRGB(x, y)
+      else:
+        c = self.getColor(x, y)
+      self.cache[x][y] = c
+      r.append((x, y, c))
     self.changed = []
     return r
 
-  def getAllColor(self):
-    for x, y in self.changed:
-      self.cache[x][y] = self.getColor(x, y)
-    self.changed = []
-    return self.cache
+  def getFlash(self):
+    pass

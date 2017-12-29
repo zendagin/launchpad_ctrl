@@ -18,7 +18,7 @@ def colorOne(m):
 
 def color(m):
   for index, data in enumerate(m.x):
-    c = LaunchpadColorOne(m.x[index], m.y[index], m.r[index], m.g[index], m.b[index])
+    c = LaunchpadColorOne(m.x[index], m.y[index], m.c[index])
     colorOne(c)
 
 def colorRow(m):
@@ -55,8 +55,8 @@ def main():
   rospy.Subscriber("launchpad_color_change", LaunchpadColor, color)
 
   rospy.Subscriber("launchpad_color_row", LaunchpadRow, colorRow)
-  rospy.Subscriber("launchpad_color_column", LaunchpadColumn, colorColumn())
-  rospy.Subscriber("launchpad_color_all", UInt8, colorAll())
+  rospy.Subscriber("launchpad_color_column", LaunchpadColumn, colorColumn)
+  rospy.Subscriber("launchpad_color_all", UInt8, colorAll)
   rospy.Subscriber("launchpad_color_flash", LaunchpadFlash, flash)
 
   rospy.Subscriber("launchpad_color_change_one_rgb", LaunchpadColorOneRGB, colorOneRGB)
