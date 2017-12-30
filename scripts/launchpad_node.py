@@ -31,6 +31,7 @@ def colorAll(m):
   lp.lightAll(m.data)#TODO
 
 def flash(m):
+  print "Flash {} {} {}".format(m.x, m.y, m.c)
   key = xyToKey(m.x, m.y)
   lp.flash(key, m.c)
 

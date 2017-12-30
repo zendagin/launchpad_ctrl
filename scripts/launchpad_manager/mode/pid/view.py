@@ -14,19 +14,20 @@ class PidView(Layers):
   def setValue(self, num, value):
     self.point[num] = 8
     self.values[num] = value
-    reversed(value)
-    for y in range(0, 8):
-      if y < len(value):
-        d = value[y]
+    y = 0
+    value = value[::-1]#reverse
+    for i in range(0, 9):
+      if i < len(value):
+        d = value[i]
         if d == '.':
-          self.point[num] = y + 1
+          self.point[num] = y
         else:
           c = {
             '0': 0,
-            '1': 10,
+            '1': 62,
             '2': 4,
             '3': 9,
-            '4': 12,
+            '4': 73,
             '5': 17,
             '6': 49,
             '7': 54,
@@ -34,6 +35,16 @@ class PidView(Layers):
             '9': 3
           }[d]
           self.setColor(0, num, 7-y, c)
+          y += 1
       else:
         self.setColor(0, num, 7-y, 0)
+        y += 1
+
+  def getFlash(self):
+    flash = []
+    for i in range(0, 8):
+      if self.point[i] < 8:
+        y = 8 - self.point[i]
+        flash.append((i, y))
+    return flash
 

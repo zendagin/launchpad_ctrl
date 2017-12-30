@@ -19,6 +19,8 @@ class PIDMode(BasicMode):
     self.edit = PidEdit()
     self.editMode = False
     self.colors = self.view
+    self.view.setValue(0, "01234567")
+    self.view.setValue(1, "89")
 
     for x in range(0, 3):
       for y in range(0, 3):
@@ -31,13 +33,27 @@ class PIDMode(BasicMode):
   def start(self):
     self.printAll()
 
+  def updateColor(self):
+    if self.editMode == True:
+      self.edit.render()
+    super(PIDMode, self).updateColor()
+
+
+  def printAll(self):
+    super(PIDMode, self).printAll()
+    if self.editMode == False:
+      rospy.sleep(0.1)
+      flashs = self.view.getFlash()
+      for (x, y) in flashs:
+        self.flash.publish(LaunchpadFlash(x, y, 23))
+
   def __exit__(self, exc_type, exc_value, traceback):
     pass
 
   def execute(self, e):
     if e.keydown == False:
       return
-    if self.editMode == False and e.y == 8 and e.x != 8:
+    if self.editMode == False and e.y == 8 and e.x != 0 and e.x != 1:
       self.editMode = True
       self.editingNum = e.x
       self.edit.setValue(self.view.values[e.x])
@@ -60,7 +76,6 @@ class PIDMode(BasicMode):
       if(e.y >= 4 and e.y < 7) and (e.x < 3):
         n = (6-e.y)*3+e.x
         self.edit.addDigit(chr(ord('1')+n))
-      self.edit.render()
       self.updateColor()
 
 
