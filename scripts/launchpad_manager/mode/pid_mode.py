@@ -19,8 +19,7 @@ class PIDMode(BasicMode):
     self.edit = PidEdit()
     self.editMode = False
     self.colors = self.view
-    self.view.setValue(0, "01234567")
-    self.view.setValue(1, "89")
+    self.view.setValue(0, "0123456789")
 
     for x in range(0, 3):
       for y in range(0, 3):
@@ -33,19 +32,22 @@ class PIDMode(BasicMode):
   def start(self):
     self.printAll()
 
-  def updateColor(self):
-    if self.editMode == True:
-      self.edit.render()
-    super(PIDMode, self).updateColor()
-
-
-  def printAll(self):
-    super(PIDMode, self).printAll()
+  def sendFlash(self):
     if self.editMode == False:
       rospy.sleep(0.1)
       flashs = self.view.getFlash()
       for (x, y) in flashs:
         self.flash.publish(LaunchpadFlash(x, y, 23))
+
+  def updateColor(self):
+    self.colors.render()
+    super(PIDMode, self).updateColor()
+    self.sendFlash()
+
+  def printAll(self):
+    self.colors.render()
+    super(PIDMode, self).printAll()
+    self.sendFlash()
 
   def __exit__(self, exc_type, exc_value, traceback):
     pass
@@ -53,7 +55,7 @@ class PIDMode(BasicMode):
   def execute(self, e):
     if e.keydown == False:
       return
-    if self.editMode == False and e.y == 8 and e.x != 0 and e.x != 1:
+    if self.editMode == False and e.y == 8 and e.x != 0:
       self.editMode = True
       self.editingNum = e.x
       self.edit.setValue(self.view.values[e.x])
@@ -63,7 +65,11 @@ class PIDMode(BasicMode):
     if self.editMode == True:
       if e.x == 0 and e.y == 8:
         self.editMode = False
-        self.view.setValue(self.editingNum, self.edit.value)
+        str = self.edit.value
+        if str[len(str)-1] == '.':
+          str = str[:len(str)-1]
+        self.edit.setValue(str)
+        self.view.setValue(self.editingNum, str)
         self.colors = self.view
         self.printAll()
       if e.y == 7:
@@ -76,6 +82,16 @@ class PIDMode(BasicMode):
       if(e.y >= 4 and e.y < 7) and (e.x < 3):
         n = (6-e.y)*3+e.x
         self.edit.addDigit(chr(ord('1')+n))
+      self.updateColor()
+    if e.x == 8and e.y < 4:
+      if e.type == "UP":
+        self.colors.shiftTop()
+      if e.type == "DOWN":
+        self.colors.shiftBottom()
+      if e.type == "LEFT":
+        self.colors.shiftLeft()
+      if e.type == "RIGHT":
+        self.colors.shiftRight()
       self.updateColor()
 
 

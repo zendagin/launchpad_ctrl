@@ -89,15 +89,22 @@ class PidEdit(Layers):
           if self.getColor(7-x,y) != c:
             self.setColor(0, 7-x, y, c)
 
+  def shiftTop(self):
+    self.shiftLeft(len(self.value) - self.shift)
+
+  def shiftBottom(self):
+    self.shift = 0
+    self.shiftPixel = 0
+
   def shiftLeft(self, offset = 1):
     for i in range(0, offset):
       if len(self.pixels) - self.shiftPixel > 8:
         widthDict = {
-          '.': 3,
-          '1': 5
+          '.': 2,
+          '1': 4
         }
-        pos = len(self.value) - self.shift
-        width = widthDict.get(self.value[pos], 6)
+        pos = len(self.value) - self.shift -1
+        width = widthDict.get(self.value[pos], 5)
         self.shiftPixel += width
         self.shift += 1
       else:
@@ -108,11 +115,11 @@ class PidEdit(Layers):
       if self.shift > 0:
         self.shift -= 1
         widthDict = {
-          '.': 3,
-          '1': 5
+          '.': 2,
+          '1': 4
         }
-        pos = len(self.value) - self.shift
-        width = widthDict.get(self.value[pos], 6)
+        pos = len(self.value) - self.shift -1
+        width = widthDict.get(self.value[pos], 5)
         self.shiftPixel -= width
       else:
         break
