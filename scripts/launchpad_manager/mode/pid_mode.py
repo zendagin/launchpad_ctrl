@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import random
 import rospy
+import os.path
 from graphic.layers import *
 from basic_mode import *
 from std_msgs.msg import Empty
@@ -19,6 +20,13 @@ class PIDMode(BasicMode):
     self.edit = PidEdit()
     self.editMode = False
     self.colors = self.view
+    if os.path.isfile("saved_values.txt"):
+      with open("saved_values.txt") as f:
+        content = f.readlines()
+        f.close()
+      for (i, line) in enumerate(content):
+        line = line[:len(line) - 1]#remove \n
+        self.view.setValue(7-i, line)
     self.view.setValue(0, "0123456789")
 
     for x in range(0, 3):
@@ -70,6 +78,10 @@ class PIDMode(BasicMode):
           str = str[:len(str)-1]
         self.edit.setValue(str)
         self.view.setValue(self.editingNum, str)
+        with open("saved_values.txt", "w") as f:
+          for i in range(0, 7):
+            f.write(self.view.values[7-i]+"\n")
+          f.close()
         self.colors = self.view
         self.printAll()
       if e.y == 7:
