@@ -74,8 +74,9 @@ class PIDMode(BasicMode):
       if e.x == 0 and e.y == 8:
         self.editMode = False
         str = self.edit.value
-        if str[len(str)-1] == '.':
-          str = str[:len(str)-1]
+        if(len(str) > 0):
+          if str[len(str)-1] == '.':
+            str = str[:len(str)-1]
         self.edit.setValue(str)
         self.view.setValue(self.editingNum, str)
         with open("saved_values.txt", "w") as f:
