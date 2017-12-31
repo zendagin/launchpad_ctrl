@@ -44,6 +44,7 @@ def listener():
 
   rospy.Subscriber("launchpad_key_event", LaunchpadKey, callback)
 
+  rospy.sleep(0.1)
   current_mode.start()
 
   # spin() simply keeps python from exiting until this node is stopped
