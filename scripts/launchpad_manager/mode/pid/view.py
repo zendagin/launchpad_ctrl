@@ -31,10 +31,10 @@ class PidView(Layers):
           else:
             c = {
               '0': 0,
-              '1': 62,
-              '2': 4,
-              '3': 9,
-              '4': 73,
+              '1': 126,
+              '2': 120,
+              '3': 96,
+              '4': 13,
               '5': 17,
               '6': 49,
               '7': 54,
@@ -71,7 +71,7 @@ class PidView(Layers):
     self.adjustShift()
 
   def adjustShift(self):
-    self.shift = min(self.shift, self.maxLength())
+    self.shift = min(self.shift, max(0, self.maxLength()-8))
 
   def maxLength(self):
     maxL = 0
