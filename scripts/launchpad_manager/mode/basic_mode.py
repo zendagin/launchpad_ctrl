@@ -39,7 +39,6 @@ class BasicMode(object):
 
   def addL(self):
     self.colors.addLayer()
-    self.setRowRGB(4, 0, 0, 1, 0.5, False, 1)
 
   def printAll(self):
     if self.colors.rgb:

@@ -17,9 +17,7 @@ def colorOne(m):
   lp.lightOne(key, m.c)
 
 def color(m):
-  for index, data in enumerate(m.x):
-    c = LaunchpadColorOne(m.x[index], m.y[index], m.c[index])
-    colorOne(c)
+  lp.lightMulti(zip(*(m.x,m.y,m.c)))
 
 def colorRow(m):
   lp.lightOne(m.row, m.c)
@@ -40,9 +38,7 @@ def colorOneRGB(m):
   lp.lightOneRGB(key, m.r, m.g, m.b)
 
 def colorRGB(m):
-  for index, data in enumerate(m.x):
-    c = LaunchpadColorOneRGB(m.x[index], m.y[index], m.r[index], m.g[index], m.b[index])
-    colorOneRGB(c)
+  lp.lightMultiRGB(zip(*(m.x,m.y,m.r,m.g,m.b)))
 
 def clear(m):
   lp.ledOff()

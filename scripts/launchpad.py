@@ -60,6 +60,13 @@ class Launchpad:
   def lightOne(self, led_num, c):
     self.midi_output.write_sys_ex(0, [0xf0, 0x00, 0x20, 0x29, 0x02, 0x18, 0x0a, led_num, c, 0xf7])
 
+  def lightMulti(self, m):
+    m_output = []
+    for x, y, c in m:
+      m_output += [xyToKey(x,y)]
+      m_output += [c]
+    self.midi_output.write_sys_ex(0, [0xf0, 0x00, 0x20, 0x29, 0x02, 0x18, 0x0a] + m_output + [0xf7])
+
   def lightColumn(self, col_num, c):
     self.midi_output.write_sys_ex(0, [0xf0, 0x00, 0x20, 0x29, 0x02, 0x18, 0x0c, col_num, c, 0xf7])
 
@@ -71,6 +78,19 @@ class Launchpad:
 
   def lightOneRGB(self, led_num, r, g, b):  # maximum color value is 63 0x3f
     self.midi_output.write_sys_ex(0, [0xf0, 0x00, 0x20, 0x29, 0x02, 0x18, 0x0b, led_num, r, g, b, 0xf7])
+
+  def lightMultiRGB(self, m):
+    m_output = []
+    counter = 0
+    for i,(x, y, r, g, b) in enumerate(m):
+      m_output += [xyToKey(x,y)]
+      m_output += [r, g, b]
+      counter += 1
+      if counter == 15:
+        self.midi_output.write_sys_ex(0, [0xf0, 0x00, 0x20, 0x29, 0x02, 0x18, 0x0b] + m_output + [0xf7])
+        m_output = []
+        counter = 0
+    self.midi_output.write_sys_ex(0, [0xf0, 0x00, 0x20, 0x29, 0x02, 0x18, 0x0b] + m_output + [0xf7])
 
   def flash(self, led_num, c):
     self.midi_output.write_sys_ex(0, [0xf0, 0x00, 0x20, 0x29, 0x02, 0x18, 0x23, 0x00, led_num, c, 0xf7])
