@@ -25,6 +25,36 @@ class ControllerMode(BasicMode):
         colorLayer= self.colors.layers[self.colors.addLayer()],
         keyDown="controller.methods.test"
       ))
+      self.addGroup(NodeGroup(
+        [(5,0)],
+        1,
+        colorLayer= self.colors.layers[self.colors.addLayer()],
+        keyDown="controller.methods.test"
+      ))
+      self.addGroup(NodeGroup(
+        [(4,0),(4,1)],
+        1,
+        colorLayer= self.colors.layers[self.colors.addLayer()],
+        keyDown="controller.methods.test"
+      ))
+      self.addGroup(NodeGroup(
+        [(3,0),(3, 1)],
+        1,
+        colorLayer= self.colors.layers[self.colors.addLayer()],
+        keyDown="controller.methods.test"
+      ))
+      self.addGroup(NodeGroup(
+        [(2,0),(2, 1)],
+        1,
+        colorLayer= self.colors.layers[self.colors.addLayer()],
+        keyDown="controller.methods.test"
+      ))
+      self.addGroup(NodeGroup(
+        [(1,0),(1, 1)],
+        1,
+        colorLayer= self.colors.layers[self.colors.addLayer()],
+        keyDown="controller.methods.test"
+      ))
 
 
 
