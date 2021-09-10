@@ -6,7 +6,7 @@ There are two nodes `launchpad_node.py` and `launchpad_manager.py`.
 
 It will publish a topic `launchpad_key_event` on every key event. The msg `LaunchpadKey` contains `x`(uint), `y`(uint), `keydown`(bool) and `type`(string). Notice that x value means vertical and y value means horizontal starting from bottom left(0, 0).
 
-It also subscribe color topics for lighting the launchpad. See content of `launchpad_node.py`, definations of .msg files, and `Launchpad MK2 Programmers Reference Manual` (https://global.novationmusic.com/sites/default/files/novation/downloads/10529/launchpad-mk2-programmers-reference-guide_0.pdf) for more details.
+It also subscribe color topics for lighting the launchpad. See content of `launchpad_node.py`, definations of .msg files, and [Launchpad MK2 Programmers Reference Manual](https://d2xhy469pqj8rc.cloudfront.net/sites/default/files/novation/downloads/10529/launchpad-mk2-programmers-reference-guide-v1-02.pdf) for more details.
 
 ## launchpad_manager.py
 `launchpad_manager.py` is a node using with `launchpad_node.py` provides higher level interfaces and functions for launchpad applications. It can support up to 4 modes and hide the buttons `Session`, `User 1`, `User 2`, `Mixer` for swiching mode. It can takes up to 4 arguments for user definded mode and overwrite from `Srssion` botton to `Mixer` botton. Please enter the full class path `package.file.class` for the arguments. A folder with a file `__init__.py` will be considered as a python package.
